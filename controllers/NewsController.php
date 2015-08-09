@@ -6,10 +6,10 @@ class NewsController
     public function actionAll()
     {
 
-        $db = new DB();
-        $res = $db->query('SELECT * FROM news');
-        var_dump($res);
-        die;
+        $article = new NewsModel();
+        $article->title = 'Привет!';
+        $article->text = 'Привет world!';
+        $article->insert();
         /*$items = News::ge tAll();
         $view = new View();
         $view->assign('items', $items);
