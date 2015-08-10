@@ -50,6 +50,10 @@ abstract class AbstractModel
         $db->setClassName($class);
         $sql = 'SELECT * FROM '.static::getTable().' WHERE '.$column. '=:value';
         $res = $db->query($sql, [':value' => $value]);
+        if(empty($res)){
+            $e = new ModalException();
+            throw $e;
+        }
         if(!empty($res)){
             return $res[0];
         }
