@@ -51,13 +51,10 @@ abstract class AbstractModel
         $sql = 'SELECT * FROM '.static::getTable().' WHERE '.$column. '=:value';
         $res = $db->query($sql, [':value' => $value]);
         if(empty($res)){
-            $e = new ModalException();
-            throw $e;
+            throw new ModelException('Ничего не найдено...');
         }
-        if(!empty($res)){
-            return $res[0];
-        }
-        return false;
+        return $res[0];
+;
     }
 
     protected function insert(){

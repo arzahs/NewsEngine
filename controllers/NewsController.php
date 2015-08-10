@@ -6,8 +6,8 @@ class NewsController
     public function actionAll()
     {
 
-        $art = NewsModel::findOneByColumn('title', 'New header');
-        $art->title = 'New header1';
+        $art = NewsModel::findOneByColumn('title', 'New header1');
+        $art->title = 'New header';
         $art->save();
        /* $art = new NewsModel();
         $art->title = 'Today in world';
