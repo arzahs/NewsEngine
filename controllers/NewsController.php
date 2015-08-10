@@ -6,10 +6,23 @@ class NewsController
     public function actionAll()
     {
 
-        $article = new NewsModel();
+        $art = NewsModel::findOneByColumn('title', 'New header');
+        $art->title = 'New header1';
+        $art->save();
+       /* $art = new NewsModel();
+        $art->title = 'Today in world';
+        $art->text = 'ololdfvdsvsd';
+        $art->insert();
+
+        var_dump($art->id);
+       /* $article = new NewsModel();
         $article->title = 'Привет!';
-        $article->text = 'Привет world!';
-        $article->insert();
+        $article->text = 'Привет world!';*/
+
+        //var_dump( isset($article->title) );
+
+        /*$article->insert();*/
+
         /*$items = News::ge tAll();
         $view = new View();
         $view->assign('items', $items);

@@ -5,15 +5,24 @@ abstract class AbstractModel
     protected static $table;
     //protected static $class;
     protected $data = [];
+
     public static function getTable(){
         return static::$table;
     }
+
     public function __set($k, $v){
         $this->data[$k] = $v;
     }
+
     public function __get($k){
         return $this->data[$k];
     }
+
+    public function __isset($k){
+        return isset($this->data[$k]);
+    }
+
+
     public static function findAll(){
 
         $class = get_called_class();
@@ -34,7 +43,20 @@ abstract class AbstractModel
 
     }
 
-    public function insert(){
+    public static function findOneByColumn($column, $value)
+    {
+        $class = get_called_class();
+        $db = new DB();
+        $db->setClassName($class);
+        $sql = 'SELECT * FROM '.static::getTable().' WHERE '.$column. '=:value';
+        $res = $db->query($sql, [':value' => $value]);
+        if(!empty($res)){
+            return $res[0];
+        }
+        return false;
+    }
+
+    protected function insert(){
         $cols = array_keys($this->data);
         $ins = [];
         $data = [];
@@ -50,9 +72,41 @@ abstract class AbstractModel
         ';
         $db = new DB();
         $db->execute($sql, $data);
+        $this->id = $db->lastInsertId();
+
+    }
+
+    protected function update(){
+        $cols = [];
+        $data = [];
+        foreach($this->data as $k => $v){
+            $data[':'.$k] = $v;
+            if('id'==$k){
+               continue;
+           }
+
+           $cols[] = $k . '=:' . $k;
+       }
+
+       $sql = 'UPDATE '.static::$table.'
+        SET '.implode(', ', $cols).'
+        WHERE id=:id
+        ';
+        $db = new DB();
+        $db->execute($sql, $data);
 
 
     }
+
+    public function save()
+    {
+        if(!isset($this->id)){
+            $this->insert();
+        }else{
+            $this->update();
+        }
+    }
+
     /*static public function getAll(){
         $db = new DB;
         $sql = 'SELECT * FROM '.static::$table;
