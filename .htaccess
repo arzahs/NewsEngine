@@ -1,3 +1,4 @@
 RewriteEngine On
+RewriteBase /
 
-RewriteRule ^([a-zA-Z]+)\/([a-zA-Z]+)$ index.php?ctrl=$act=$2
+RewriteRule ^(.*)$ index.php
