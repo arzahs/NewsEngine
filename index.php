@@ -2,9 +2,9 @@
 
 require_once __DIR__.'/autoload.php';
 
-$path=parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+/*$path=parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $pathParts = explode('/', $path);
-var_dump($pathParts);
+*/
 
 $ctrl = isset($_GET['ctrl']) ? $_GET['ctrl'] : 'News';
 $act = isset($_GET['act']) ? $_GET['act'] : 'All';
@@ -12,7 +12,7 @@ $act = isset($_GET['act']) ? $_GET['act'] : 'All';
 /*$ctrl = !empty($pathParts[1]) ? $pathParts[1] : 'News';
 $act = !empty($pathParts[2]) ? $pathParts[2] : 'All';
 */
-$controllerClassName = $ctrl.'Controller';
+$controllerClassName = 'Application\\Controllers\\' . $ctrl;
 
 try{
     $controller = new $controllerClassName;
